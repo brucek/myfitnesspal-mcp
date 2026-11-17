@@ -133,6 +133,8 @@ def test_recipe_summary_with_and_without_ingredients():
     assert summary["servings"] == 2.0
     assert summary["nutrition"]["calories"] == 400.0
     assert summary["nutrition"]["fiber"] == 4.0
+    noisy = dict(item, nutritional_contents={"protein": 32.65999984741211})
+    assert recipes.recipe_summary(noisy)["nutrition"]["protein"] == 32.7
     assert summary["ingredient_count"] == 1
     assert "ingredients" not in summary
 

@@ -1,4 +1,5 @@
 from .food_ranking import name_matches, normalize_query
+from .mfp_web import plain_text
 
 SORTS = ("recent", "frequent")
 
@@ -25,7 +26,7 @@ def summarize(
         food = foods.get(key)
         if food is None:
             food = foods[key] = {
-                "name": entry.get("name"),
+                "name": plain_text(entry.get("name")),
                 "times_logged": 0,
                 "last_logged": entry["day"],
                 "first_logged": entry["day"],

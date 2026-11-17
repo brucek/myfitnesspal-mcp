@@ -17,7 +17,7 @@ def entry(day, meal, name, calories=100.0):
 
 ENTRIES = [
     entry("2026-07-08", "Breakfast", "Greek Yogurt, 1 cup", 130.0),
-    entry("2026-07-08", "Lunch", "Turkey Sandwich"),
+    entry("2026-07-08", "Lunch", "Turkey\u00a0Sandwich"),
     entry("2026-07-07", "Breakfast", "Greek Yogurt, 1 cup", 120.0),
     entry("2026-07-06", "Snacks", "greek yogurt,  1 cup", 120.0),
     entry("2026-07-06", "Breakfast", "Coffee"),
@@ -57,7 +57,7 @@ def test_filters_by_query_words_and_meal():
     foods, _ = recent_foods.summarize(ENTRIES, query="yogurt cup", meal="snacks")
 
     assert [(food["name"], food["times_logged"]) for food in foods] == [
-        ("greek yogurt,  1 cup", 1)
+        ("greek yogurt, 1 cup", 1)
     ]
 
 
