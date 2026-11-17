@@ -69,27 +69,34 @@ def plain_text(value: str | None) -> str | None:
     return " ".join(str(value).split())
 
 
-SERVICES_SIGNED_OUT = (301, 302, 303, 307, 308, 401, 403)
+SIGNED_OUT_STATUSES = (301, 302, 303, 307, 308, 401, 403)
 
 
-def get_service_json(client, path: str, params: dict | None = None):
-    """The www site's /api/services routes, which the web app calls with the
-    session cookie alone. A signed-out session is redirected to /account/logout
-    rather than refused, and the page behind that redirect is the sign-out
-    confirmation, so redirects are reported as a signed-out session and never
-    followed (verified 2026-11-16)."""
-    endpoint = f"/api/services/{path}"
-    resp = client.session.get(
-        site_url(client, f"api/services/{path}", params=params),
-        headers={"Accept": "application/json"},
-        allow_redirects=False,
-    )
-    if resp.status_code in SERVICES_SIGNED_OUT:
+def get_signed_in(client, url: str, endpoint: str, headers: dict):
+    """A signed-out session is redirected to /account/logout rather than
+    refused, and the page behind that redirect is the sign-out confirmation, so
+    redirects are reported as a signed-out session and never followed
+    (verified 2026-11-16)."""
+    resp = client.session.get(url, headers=headers, allow_redirects=False)
+    if resp.status_code in SIGNED_OUT_STATUSES:
         raise RuntimeError(
             f"MyFitnessPal answered {endpoint} with HTTP {resp.status_code}: "
             "the session isn't signed in"
         )
     require_status(resp, endpoint, (200,))
+    return resp
+
+
+def get_service_json(client, path: str, params: dict | None = None):
+    """The www site's /api/services routes, which the web app calls with the
+    session cookie alone."""
+    endpoint = f"/api/services/{path}"
+    resp = get_signed_in(
+        client,
+        site_url(client, f"api/services/{path}", params=params),
+        endpoint,
+        headers={"Accept": "application/json"},
+    )
     if "json" not in resp.headers.get("Content-Type", ""):
         raise RuntimeError(
             f"MyFitnessPal answered {endpoint} with a page instead of data: "

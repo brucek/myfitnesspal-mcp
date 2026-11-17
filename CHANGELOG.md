@@ -18,6 +18,12 @@ All notable changes to this project are documented here. The format follows
   food's calories, macros, sodium and sugar and the meal's totals.
 - `fitness_list_recipes` lists your Recipe Box with servings and nutrition,
   and each recipe's ingredient lines with `include_ingredients`.
+- `fitness_log_food` takes an optional `source` ("recipes", "meals",
+  "my_foods", "recent") to log one of your own saved items by name, read from
+  the website's add-food lists, instead of searching the food database. An
+  exact name wins; several matches are returned without logging. The list
+  tools return each item's `food_id` + `weight_id` for the existing
+  explicit-ids path.
 - `fitness_complete_day` reports whether a diary day is marked complete, or
   marks it complete or reopens it, as the website's "Complete This Entry"
   button does. A bare call only reports.

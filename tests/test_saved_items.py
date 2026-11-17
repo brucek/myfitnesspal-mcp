@@ -3,10 +3,24 @@ import json
 import pytest
 from conftest import FIXTURES, FakeClient, FakeResponse
 
-from myfitnesspal_mcp import mfp_client, my_foods, my_meals, recipes
+from myfitnesspal_mcp import favorites, mfp_client, my_foods, my_meals, recipes
 from myfitnesspal_mcp.mfp_web import get_service_json, plain_text
 
 JSON_HEADERS = {"Content-Type": "application/json; charset=utf-8"}
+HTML_HEADERS = {"Content-Type": "text/html; charset=utf-8"}
+
+
+def favorites_response(kind):
+    return FakeResponse(
+        text=(FIXTURES / f"favorites_{kind}.html").read_text(), headers=HTML_HEADERS
+    )
+
+
+def client_with(*routes):
+    client = FakeClient()
+    for fragment, response in routes:
+        client.session.route("GET", fragment, response)
+    return client
 
 
 def fixture_json(name):
@@ -22,20 +36,28 @@ def test_plain_text_collapses_non_breaking_spaces():
     assert plain_text(None) is None
 
 
-def test_my_foods_lists_live_foods_with_nutrition_per_base_serving():
-    client = FakeClient()
-    client.session.route(
-        "GET", "api/services/users/foods/mine", service_response("my_foods.json")
+def my_foods_client():
+    return client_with(
+        ("api/services/users/foods/mine", service_response("my_foods.json")),
+        ("food/load_my_foods", favorites_response("my_foods")),
     )
+
+
+def test_my_foods_lists_live_foods_with_nutrition_per_base_serving():
+    client = my_foods_client()
 
     foods = my_foods.list_my_foods(client)
 
     assert [food["name"] for food in foods] == ["Trail Mix Bar", "Energy Gel"]
     bar = foods[0]
-    assert bar["food_id"] == "900000000000001"
+    assert bar["food_id"] == "5200000001"
+    assert bar["weight_id"] == "6200000001"
     assert bar["brand"] == "Acme"
     assert bar["nutrition_per"] == "1 bar"
-    assert bar["servings"] == ["1 bar", "0.5 bar"]
+    assert bar["servings"] == [
+        {"weight_id": "6200000001", "serving": "1 bar"},
+        {"weight_id": "6200000002", "serving": "0.5 bar"},
+    ]
     assert bar["nutrition"] == {
         "calories": 190,
         "protein": 5,
@@ -48,11 +70,20 @@ def test_my_foods_lists_live_foods_with_nutrition_per_base_serving():
     assert foods[1]["nutrition"]["protein"] is None
 
 
-def test_my_foods_passes_the_query_to_mfp_search():
-    client = FakeClient()
-    client.session.route(
-        "GET", "api/services/users/foods/mine", service_response("my_foods.json")
+def test_my_food_missing_from_the_add_food_page_has_no_diary_ids():
+    client = client_with(
+        ("api/services/users/foods/mine", service_response("my_foods.json")),
+        ("food/load_my_foods", FakeResponse(text="", headers=HTML_HEADERS)),
     )
+
+    bar = my_foods.list_my_foods(client)[0]
+
+    assert (bar["food_id"], bar["weight_id"]) == (None, None)
+    assert bar["servings"][0] == {"weight_id": None, "serving": "1 bar"}
+
+
+def test_my_foods_passes_the_query_to_mfp_search():
+    client = my_foods_client()
 
     my_foods.list_my_foods(client, "trail mix")
 
@@ -62,9 +93,9 @@ def test_my_foods_passes_the_query_to_mfp_search():
 
 
 def test_my_meals_lists_foods_and_totals():
-    client = FakeClient()
-    client.session.route(
-        "GET", "api/services/users/meals/mine", service_response("my_meals.json")
+    client = client_with(
+        ("api/services/users/meals/mine", service_response("my_meals.json")),
+        ("food/load_meals", favorites_response("meals")),
     )
 
     meals = my_meals.list_my_meals(client)
@@ -75,6 +106,7 @@ def test_my_meals_lists_foods_and_totals():
     ]
     oatmeal = meals[0]
     assert oatmeal["meal_id"] == 111
+    assert (oatmeal["food_id"], oatmeal["weight_id"]) == ("111", "6100000001")
     assert oatmeal["foods"][0]["name"] == "Rolled Oats"
     assert oatmeal["totals"]["calories"] == 234
     assert oatmeal["totals"]["protein"] == 6.1
@@ -148,3 +180,56 @@ def test_recipe_summary_with_and_without_ingredients():
             "serving": "4 oz",
         }
     ]
+
+
+def test_favorites_rows_carry_diary_ids_and_servings():
+    client = client_with(("food/load_my_foods", favorites_response("my_foods")))
+
+    rows = favorites.load(client, "my_foods")
+
+    assert rows[0] == {
+        "name": "Acme - Trail Mix Bar",
+        "food_id": "5200000001",
+        "weight_id": "6200000001",
+        "servings": [
+            {"weight_id": "6200000001", "serving": "1 bar"},
+            {"weight_id": "6200000002", "serving": "0.5 bar"},
+        ],
+    }
+    assert client.session.calls[0][2]["allow_redirects"] is False
+
+
+def test_favorites_default_to_the_selected_serving():
+    client = client_with(("food/load_recent", favorites_response("recent")))
+    assert favorites.load(client, "recent")[0]["weight_id"] == "6300000002"
+
+
+def test_favorites_reject_an_unknown_source():
+    with pytest.raises(ValueError, match="source must be one of"):
+        favorites.load(FakeClient(), "pantry")
+
+
+def test_favorites_signed_out_redirect_is_an_auth_error():
+    client = client_with(
+        (
+            "food/load_recipes",
+            FakeResponse(302, headers={"Location": "/account/logout"}),
+        )
+    )
+    with pytest.raises(RuntimeError) as raised:
+        favorites.load(client, "recipes")
+    assert mfp_client.is_auth_error(raised.value)
+
+
+def test_matching_prefers_an_exact_name_over_partial_matches():
+    client = client_with(("food/load_recipes", favorites_response("recipes")))
+    rows = favorites.load(client, "recipes")
+
+    assert [row["name"] for row in favorites.matching(rows, "turkey burger")] == [
+        "Turkey Burger"
+    ]
+    assert [row["name"] for row in favorites.matching(rows, "turkey")] == [
+        "Turkey Burger",
+        "Spicy Turkey Burger",
+    ]
+    assert favorites.matching(rows, "salmon") == []

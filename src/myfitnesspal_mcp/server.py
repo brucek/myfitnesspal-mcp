@@ -13,6 +13,7 @@ from . import (
     day_completion,
     diary,
     exercise,
+    favorites,
     food_logging,
     food_search,
     measurements,
@@ -26,7 +27,7 @@ from . import (
     sync,
     water,
 )
-from .food_ranking import MacroTargets, name_matches
+from .food_ranking import MacroTargets, name_matches, normalize_query
 from .store import Store, trend_column
 
 
@@ -242,14 +243,14 @@ async def fitness_list_my_foods(
     query: str | None = None, limit: int = 50, ctx: Context = None
 ) -> dict:
     """Your own foods: MyFitnessPal's "My Foods", the foods you created.
-    Each has name, brand, its serving sizes, and calories and nutrients for
-    the serving named in `nutrition_per`. Nutrients MyFitnessPal stores no
+    Each has name, brand, its servings, and calories and nutrients for the
+    serving named in `nutrition_per`. Nutrients MyFitnessPal stores no
     value for (it leaves out zeros) are null.
 
     query: only foods matching this text, using MyFitnessPal's own search.
     limit: maximum foods returned (default 50); `total` counts every match.
-    food_id is MyFitnessPal's id for the food, not the food_id that
-    fitness_log_food takes: to log one, pass its name to fitness_draft_food.
+    To log one: fitness_log_food(source="my_foods", query=<name>), or pass its
+    food_id + a weight_id from `servings` to fitness_log_food.
     """
     _check_limit(limit)
 
@@ -267,7 +268,8 @@ async def fitness_list_my_meals(
     """Your saved meals: MyFitnessPal's "My Meals", the groups of foods saved
     with "Remember Meal" in the diary. Each meal lists its foods with
     calories, protein, carbs, fat, sodium and sugar, plus the meal's totals.
-    Read-only: this doesn't add a meal to the diary.
+    To log a meal: fitness_log_food(source="meals", query=<name>), or pass
+    its food_id + weight_id to fitness_log_food.
 
     query: only meals whose name contains all of these words.
     limit: maximum meals returned (default 50); `total` counts every match.
@@ -300,6 +302,8 @@ async def fitness_list_recipes(
     include_ingredients: also list each recipe's ingredient lines with the
     food, brand and serving each one was matched to (default false).
     limit: maximum recipes returned (default 50); `total` counts every match.
+    To log one: fitness_log_food(source="recipes", query=<name>), or pass its
+    food_id + weight_id (one serving) to fitness_log_food.
     """
     _check_limit(limit)
 
@@ -309,11 +313,16 @@ async def fitness_list_recipes(
             for recipe in recipes.fetch_recipes(client)
             if name_matches(recipe.get("name"), query)
         ]
+        loggable = favorites.by_name(favorites.load(client, "recipes"))
         return {
             "query": query,
             "total": len(matching),
             "recipes": [
-                recipes.recipe_summary(recipe, include_ingredients=include_ingredients)
+                recipes.recipe_summary(
+                    recipe,
+                    include_ingredients=include_ingredients,
+                    diary_row=loggable.get(normalize_query(recipe.get("name") or "")),
+                )
                 for recipe in matching[:limit]
             ],
         }
@@ -390,6 +399,7 @@ async def fitness_log_food(
     pin: bool = True,
     food_id: str | None = None,
     weight_id: str | None = None,
+    source: str | None = None,
     ctx: Context = None,
 ) -> dict:
     """Log a food to the real MyFitnessPal diary.
@@ -403,6 +413,16 @@ async def fitness_log_food(
     otherwise nothing is logged and a draft is returned (needs_choice=true)
     to pick from. With food_id + weight_id (from fitness_search_food): logs
     exactly that item, `query` being its display name.
+
+    With `source` + `query`: logs one of your own saved items instead of
+    searching MyFitnessPal's database. source: "recipes" (Recipe Box),
+    "meals" (saved meals), "my_foods" (foods you created), or "recent"
+    (recently logged). An exact name match wins, otherwise the single item
+    whose name contains every word of `query`; several matches are returned
+    (needs_choice=true) and nothing is logged. `serving` picks one of that
+    item's servings (1-based; default its usual one) and `quantity`
+    multiplies it. fitness_list_recipes, fitness_list_my_meals and
+    fitness_list_my_foods also return each item's food_id + weight_id.
 
     A logged result lists `added_entries` (meal, name): what MyFitnessPal
     actually put in the diary. MyFitnessPal accepts any food_id, so if the
@@ -435,6 +455,18 @@ async def fitness_log_food(
                 day=explicit_day,
                 pin=pin,
             )
+        if source is not None:
+            if not query:
+                raise ValueError("source needs query: the saved item's name")
+            return food_logging.log_saved(
+                client,
+                source,
+                query,
+                day,
+                meal=chosen_meal,
+                quantity=chosen_quantity,
+                serving=serving,
+            )
         if food_id is not None and weight_id is not None:
             food = {
                 "food_id": food_id,
@@ -449,7 +481,9 @@ async def fitness_log_food(
             return food_logging.log_by_query(
                 client, store, query, day, meal=chosen_meal, quantity=chosen_quantity
             )
-        raise ValueError("pass draft_id + option, food_id + weight_id, or query")
+        raise ValueError(
+            "pass draft_id + option, food_id + weight_id, source + query, or query"
+        )
 
     result = await add_with_session(ctx, op)
     if not result.get("logged"):

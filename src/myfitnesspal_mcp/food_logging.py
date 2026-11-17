@@ -2,7 +2,7 @@ from collections.abc import Callable
 from dataclasses import asdict
 from datetime import date
 
-from . import diary, food_search
+from . import diary, favorites, food_search
 from .entry_matching import DiaryLookupError
 from .food_ranking import MacroTargets, normalize_query, rank_candidates
 
@@ -15,6 +15,10 @@ class DraftNotFound(DiaryLookupError):
 
 
 class NoFoodFound(DiaryLookupError):
+    pass
+
+
+class NoSavedMatch(DiaryLookupError):
     pass
 
 
@@ -440,3 +444,67 @@ def modify_food(
         ),
     )
     return {**result, "source": food["source"]}
+
+
+SOURCE_LABELS = {
+    "recipes": "saved recipe",
+    "meals": "saved meal",
+    "my_foods": "food of yours",
+    "recent": "recently logged food",
+}
+MAX_LISTED_NAMES = 30
+
+
+def log_saved(
+    client,
+    source: str,
+    query: str,
+    day: date,
+    *,
+    meal: str,
+    quantity: float,
+    serving: int | None = None,
+) -> dict:
+    items = favorites.load(client, source)
+    matches = favorites.matching(items, query)
+    if not matches:
+        names = sorted(item["name"] for item in items if item["name"])
+        listed = ", ".join(names[:MAX_LISTED_NAMES]) or "none"
+        raise NoSavedMatch(
+            f"No {SOURCE_LABELS[source]} matches {query!r}. Available ({len(names)}): "
+            f"{listed}. Use one of these names as query."
+        )
+    if len(matches) > 1:
+        return {
+            "logged": False,
+            "needs_choice": True,
+            "source": source,
+            "query": query,
+            "matches": matches,
+            "hint": "Nothing was logged. Pass the exact name as query, or log one "
+            "with fitness_log_food(food_id=..., weight_id=..., query=<its name>).",
+        }
+    item = matches[0]
+    food = {
+        "food_id": item["food_id"],
+        "weight_id": _saved_weight_id(item, serving),
+        "name": item["name"],
+    }
+    return {**log_exact(client, food, day, meal, quantity=quantity), "source": source}
+
+
+def _saved_weight_id(item: dict, serving: int | None) -> str:
+    servings = item["servings"]
+    if serving is None:
+        if item["weight_id"] is None:
+            raise ValueError(f"{item['name']!r} has no serving to log")
+        return item["weight_id"]
+    if not 1 <= serving <= len(servings):
+        listed = "; ".join(
+            f"{number}: {entry['serving']}" for number, entry in enumerate(servings, 1)
+        )
+        raise ValueError(
+            f"serving must be between 1 and {len(servings)} for {item['name']!r} "
+            f"({listed})"
+        )
+    return servings[serving - 1]["weight_id"]

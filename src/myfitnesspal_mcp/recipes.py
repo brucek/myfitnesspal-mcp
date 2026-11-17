@@ -1,4 +1,4 @@
-from . import nutrition
+from . import favorites, nutrition
 from .food_search import serving_label
 from .mfp_web import api_url, get_json, plain_text
 
@@ -20,11 +20,14 @@ def fetch_recipes(client) -> list[dict]:
     return list(recipes.values())
 
 
-def recipe_summary(item: dict, *, include_ingredients: bool = False) -> dict:
+def recipe_summary(
+    item: dict, *, include_ingredients: bool = False, diary_row: dict | None = None
+) -> dict:
     ingredients = item.get("ingredients") or []
     summary = {
         "recipe_id": item.get("id"),
         "name": plain_text(item.get("name")),
+        **favorites.diary_ids(diary_row),
         "servings": item.get("servings"),
         "nutrition": nutrition.summary(item.get("nutritional_contents")),
         "ingredient_count": len(ingredients),
