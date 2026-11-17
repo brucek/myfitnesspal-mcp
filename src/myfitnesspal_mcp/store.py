@@ -275,6 +275,15 @@ class Store:
         return row["body"]
 
     @_serialized
+    def diary_entries_between(self, start: str, end: str) -> list[dict]:
+        rows = self.conn.execute(
+            "SELECT day, meal, name, calories, protein, carbs, fat FROM diary_entry "
+            "WHERE day >= ? AND day <= ? ORDER BY day DESC, id",
+            (start, end),
+        ).fetchall()
+        return [dict(row) for row in rows]
+
+    @_serialized
     def days_with_synced_diary(self, start: str, end: str) -> set[str]:
         rows = self.conn.execute(
             "SELECT day FROM day_nutrition "

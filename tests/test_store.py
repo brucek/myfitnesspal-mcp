@@ -287,3 +287,20 @@ def test_day_record_of_an_unknown_day_has_no_goals():
     assert record["nutrition"] is None
     assert record["goals"] == dict.fromkeys(("calories", "protein", "carbs", "fat"))
     assert set(record["remaining"].values()) == {None}
+
+
+def test_diary_entries_between_newest_day_first(store):
+    store.replace_diary("2026-07-01", [{"meal": "Lunch", "name": "Soup"}])
+    store.replace_diary(
+        "2026-07-03",
+        [{"meal": "Breakfast", "name": "Eggs"}, {"meal": "Dinner", "name": "Pasta"}],
+    )
+    store.replace_diary("2026-07-09", [{"meal": "Lunch", "name": "Outside window"}])
+
+    entries = store.diary_entries_between("2026-07-01", "2026-07-08")
+
+    assert [(entry["day"], entry["name"]) for entry in entries] == [
+        ("2026-07-03", "Eggs"),
+        ("2026-07-03", "Pasta"),
+        ("2026-07-01", "Soup"),
+    ]

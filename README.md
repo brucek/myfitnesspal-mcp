@@ -168,6 +168,10 @@ Then use the same `--from 'mfp-mcp[autorefresh]'` form in your client config
 | `fitness_search_food` | Candidate matches with brand, calories, macros, serving, and ids |
 | `fitness_draft_food` | Numbered options with every serving size, filtered/ranked by optional calorie and macro targets |
 | `fitness_log_food` | Log a draft option (and serving), a remembered food, or exact ids to the real diary |
+| `fitness_recent_foods` | Foods logged in the last N days, one row each: times logged, dates, meals, last-logged macros |
+| `fitness_list_my_foods` | Your own foods ("My Foods") with servings and nutrition, searchable |
+| `fitness_list_my_meals` | Your saved meals ("My Meals") with each food's macros and the meal totals |
+| `fitness_list_recipes` | Your Recipe Box: servings, nutrition, and optionally ingredients |
 | `fitness_list_food_pins` | Remembered query → food/serving choices (local) |
 | `fitness_clear_food_pin` | Forget one remembered choice, or all of them |
 | `fitness_delete_food` | Remove a diary entry by name match |

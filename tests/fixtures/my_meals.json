@@ -1,0 +1,41 @@
+[
+ {
+  "description": "Oatmeal breakfast",
+  "meal_id": 111,
+  "foods": [
+   {
+    "description": "Rolled Oats",
+    "calories": 150,
+    "carbs": 27,
+    "fat": 3,
+    "protein": 5,
+    "sodium": 0,
+    "sugar": 1
+   },
+   {
+    "description": "Blueberries, 1 cup",
+    "calories": 84,
+    "carbs": 21,
+    "fat": 0.5,
+    "protein": 1.1,
+    "sodium": 1,
+    "sugar": 15
+   }
+  ]
+ },
+ {
+  "description": "Turkey sandwich lunch",
+  "meal_id": 222,
+  "foods": [
+   {
+    "description": "Turkey Breast",
+    "calories": 90,
+    "carbs": 2,
+    "fat": 1,
+    "protein": 18,
+    "sodium": 550,
+    "sugar": null
+   }
+  ]
+ }
+]

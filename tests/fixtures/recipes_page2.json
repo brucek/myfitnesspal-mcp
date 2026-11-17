@@ -1,0 +1,82 @@
+{
+ "items": [
+  {
+   "source_url": "",
+   "name": "Protein Shake",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 250.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 1.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "810",
+   "id": "700010",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  }
+ ]
+}

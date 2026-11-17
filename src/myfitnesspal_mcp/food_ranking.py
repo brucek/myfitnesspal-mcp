@@ -33,6 +33,13 @@ def normalize_query(query: str) -> str:
     return " ".join(query.lower().split())
 
 
+def name_matches(name: str | None, query: str | None) -> bool:
+    if not query:
+        return True
+    words = normalize_query(name or "")
+    return all(word in words for word in normalize_query(query).split())
+
+
 def entry_nutrition(
     base: dict, nutrition_multiplier: float | None, quantity: float
 ) -> dict[str, float | None]:

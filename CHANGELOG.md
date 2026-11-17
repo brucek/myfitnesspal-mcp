@@ -8,6 +8,16 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- `fitness_recent_foods` lists the foods logged over the last 1-365 days,
+  one row per food, with how many times and when it was logged, the meals it
+  went to, and its calories and macros as last logged. Filters by name words
+  and meal; sorts by most recent or most frequent.
+- `fitness_list_my_foods` lists your own foods ("My Foods") with brand,
+  serving sizes and nutrition, using MyFitnessPal's own search for `query`.
+- `fitness_list_my_meals` lists your saved meals ("My Meals") with each
+  food's calories, macros, sodium and sugar and the meal's totals.
+- `fitness_list_recipes` lists your Recipe Box with servings and nutrition,
+  and each recipe's ingredient lines with `include_ingredients`.
 - `fitness_complete_day` reports whether a diary day is marked complete, or
   marks it complete or reopens it, as the website's "Complete This Entry"
   button does. A bare call only reports.

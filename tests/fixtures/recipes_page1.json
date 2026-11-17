@@ -1,0 +1,784 @@
+{
+ "items": [
+  {
+   "source_url": "",
+   "name": "Chicken Rice Bowl",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 400.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 2.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "800",
+   "id": "700000",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  },
+  {
+   "source_url": "",
+   "name": "Recipe 1",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 400.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 2.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "801",
+   "id": "700001",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  },
+  {
+   "source_url": "",
+   "name": "Recipe 2",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 400.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 2.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "802",
+   "id": "700002",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  },
+  {
+   "source_url": "",
+   "name": "Recipe 3",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 400.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 2.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "803",
+   "id": "700003",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  },
+  {
+   "source_url": "",
+   "name": "Recipe 4",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 400.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 2.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "804",
+   "id": "700004",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  },
+  {
+   "source_url": "",
+   "name": "Recipe 5",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 400.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 2.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "805",
+   "id": "700005",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  },
+  {
+   "source_url": "",
+   "name": "Recipe 6",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 400.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 2.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "806",
+   "id": "700006",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  },
+  {
+   "source_url": "",
+   "name": "Recipe 7",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 400.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 2.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "807",
+   "id": "700007",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  },
+  {
+   "source_url": "",
+   "name": "Recipe 8",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 400.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 2.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "808",
+   "id": "700008",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  },
+  {
+   "source_url": "",
+   "name": "Recipe 9",
+   "introduction": "",
+   "nutritional_contents": {
+    "energy": {
+     "unit": "calories",
+     "value": 400.0
+    },
+    "carbohydrates": 30.0,
+    "fat": 10.0,
+    "protein": 20.0,
+    "fiber": 4.0,
+    "sodium": 300.0,
+    "sugar": 6.0
+   },
+   "servings": 2.0,
+   "cooking_methods": [
+    "None"
+   ],
+   "public": false,
+   "client_id": "mfp-mobile-ios",
+   "user_id": "user-1",
+   "courses": [
+    "Unknown"
+   ],
+   "country_code": "US",
+   "version": "809",
+   "id": "700009",
+   "ingredients": [
+    {
+     "food": {
+      "brand_name": "Generic",
+      "country_code": "US",
+      "description": "Chicken Breast",
+      "id": "5001",
+      "nutritional_contents": {
+       "energy": {
+        "unit": "calories",
+        "value": 120
+       }
+      },
+      "public": true,
+      "serving_sizes": [
+       {
+        "nutrition_multiplier": 1.0,
+        "unit": "oz",
+        "value": 4.0
+       }
+      ],
+      "verified": false,
+      "version": "1"
+     },
+     "normalized_data": {
+      "ingredient": "chicken breast",
+      "quantity": 8.0,
+      "weight": "oz"
+     },
+     "raw_text": "8 oz chicken breast",
+     "serving_size": {
+      "nutrition_multiplier": 1.0,
+      "unit": "oz",
+      "value": 4.0
+     },
+     "servings": 2.0
+    }
+   ],
+   "categories": [
+    "Unknown"
+   ],
+   "directions": "",
+   "cuisines": [
+    "Nothing Specific"
+   ],
+   "dietary_needs": [
+    "None/Unknown"
+   ]
+  }
+ ]
+}

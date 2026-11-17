@@ -1,0 +1,102 @@
+[
+ {
+  "id": "900000000000001",
+  "version": "900000000000001",
+  "description": "Trail Mix Bar",
+  "public": false,
+  "brand_name": "Acme",
+  "user_id": "user-1",
+  "deleted": false,
+  "serving_sizes": [
+   {
+    "id": "1",
+    "value": 1,
+    "unit": "bar",
+    "nutrition_multiplier": 1,
+    "gram_weight": 40,
+    "fraction": false,
+    "index": 0
+   },
+   {
+    "id": "2",
+    "value": 0.5,
+    "unit": "bar",
+    "nutrition_multiplier": 0.5,
+    "gram_weight": 20,
+    "fraction": false,
+    "index": 1
+   }
+  ],
+  "nutritional_contents": {
+   "energy": {
+    "unit": "calories",
+    "value": 190
+   },
+   "carbohydrates": 24,
+   "fat": 8,
+   "protein": 5,
+   "sugar": 11,
+   "sodium": 95
+  },
+  "verified": false,
+  "type": "food",
+  "country_code": "US",
+  "created_at": "2026-01-02T03:04:05Z",
+  "updated_at": "2026-01-02T03:04:05Z"
+ },
+ {
+  "id": "900000000000002",
+  "version": "900000000000002",
+  "description": "Energy Gel",
+  "public": false,
+  "brand_name": "Zoom",
+  "user_id": "user-1",
+  "deleted": false,
+  "serving_sizes": [
+   {
+    "id": "3",
+    "value": 1,
+    "unit": "packet",
+    "nutrition_multiplier": 1,
+    "gram_weight": 32,
+    "fraction": false,
+    "index": 0
+   }
+  ],
+  "nutritional_contents": {
+   "energy": {
+    "unit": "calories",
+    "value": 100
+   },
+   "carbohydrates": 25,
+   "sodium": 60,
+   "sugar": 11
+  },
+  "verified": false,
+  "type": "food",
+  "country_code": "US",
+  "created_at": "2026-02-03T04:05:06Z",
+  "updated_at": "2026-03-04T05:06:07Z"
+ },
+ {
+  "id": "900000000000003",
+  "version": "900000000000003",
+  "description": "Old Deleted Food",
+  "public": false,
+  "brand_name": "",
+  "user_id": "user-1",
+  "deleted": true,
+  "serving_sizes": [],
+  "nutritional_contents": {
+   "energy": {
+    "unit": "calories",
+    "value": 10
+   }
+  },
+  "verified": false,
+  "type": "food",
+  "country_code": "US",
+  "created_at": "2026-01-01T00:00:00Z",
+  "updated_at": "2026-01-01T00:00:00Z"
+ }
+]

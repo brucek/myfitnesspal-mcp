@@ -9,6 +9,7 @@ from mcp.types import ToolAnnotations
 
 from . import (
     __version__,
+    config,
     day_completion,
     diary,
     exercise,
@@ -16,12 +17,16 @@ from . import (
     food_search,
     measurements,
     mfp_client,
+    my_foods,
+    my_meals,
     notes,
+    recent_foods,
+    recipes,
     refresh,
     sync,
     water,
 )
-from .food_ranking import MacroTargets
+from .food_ranking import MacroTargets, name_matches
 from .store import Store, trend_column
 
 
@@ -174,6 +179,143 @@ async def fitness_search_food(
         return {
             "query": query,
             "results": food_search.search_food(client, query, limit, with_macros),
+        }
+
+    return await with_session(ctx, op)
+
+
+def _check_limit(limit: int) -> None:
+    if limit < 1:
+        raise ValueError(f"limit must be at least 1 (got {limit})")
+
+
+@mcp.tool(title="Recently logged foods", annotations=READS_MFP)
+async def fitness_recent_foods(
+    days: int = 14,
+    query: str | None = None,
+    meal: str | None = None,
+    sort: str = "recent",
+    limit: int = 30,
+    ctx: Context = None,
+) -> dict:
+    """Foods you've logged recently, one row per distinct food, from your
+    MyFitnessPal diary: how many times and on which days you logged it, the
+    meals you logged it to (most used first), and its calories and macros as
+    last logged.
+
+    days: how far back to look, ending today (1-365, default 14).
+    query: only foods whose name contains all of these words.
+    meal: only entries logged to this meal, e.g. Breakfast.
+    sort: "recent" (last logged first, default) or "frequent" (most logged first).
+    limit: maximum foods returned (default 30); `total` counts every match.
+    To log one again, pass its name to fitness_draft_food.
+    """
+    if not 1 <= days <= 365:
+        raise ValueError(f"days must be between 1 and 365 (got {days})")
+    _check_limit(limit)
+    today = datetime.date.today()
+    start = today - datetime.timedelta(days=days - 1)
+
+    def op(store, client):
+        sync.poll(store, client, days=days, force=days > config.sync_days())
+        for day in (today - datetime.timedelta(days=1), today):
+            sync.refresh_day(store, client, day)
+        foods, total = recent_foods.summarize(
+            store.diary_entries_between(start.isoformat(), today.isoformat()),
+            query=query,
+            meal=meal,
+            sort=sort,
+            limit=limit,
+        )
+        return {
+            "start": start.isoformat(),
+            "end": today.isoformat(),
+            "total": total,
+            "foods": foods,
+        }
+
+    return await with_session(ctx, op)
+
+
+@mcp.tool(title="List my foods", annotations=READS_MFP)
+async def fitness_list_my_foods(
+    query: str | None = None, limit: int = 50, ctx: Context = None
+) -> dict:
+    """Your own foods: MyFitnessPal's "My Foods", the foods you created.
+    Each has name, brand, its serving sizes, and calories and nutrients for
+    the serving named in `nutrition_per`. Nutrients MyFitnessPal stores no
+    value for (it leaves out zeros) are null.
+
+    query: only foods matching this text, using MyFitnessPal's own search.
+    limit: maximum foods returned (default 50); `total` counts every match.
+    food_id is MyFitnessPal's id for the food, not the food_id that
+    fitness_log_food takes: to log one, pass its name to fitness_draft_food.
+    """
+    _check_limit(limit)
+
+    def op(store, client):
+        foods = my_foods.list_my_foods(client, query)
+        return {"query": query, "total": len(foods), "foods": foods[:limit]}
+
+    return await with_session(ctx, op)
+
+
+@mcp.tool(title="List my saved meals", annotations=READS_MFP)
+async def fitness_list_my_meals(
+    query: str | None = None, limit: int = 50, ctx: Context = None
+) -> dict:
+    """Your saved meals: MyFitnessPal's "My Meals", the groups of foods saved
+    with "Remember Meal" in the diary. Each meal lists its foods with
+    calories, protein, carbs, fat, sodium and sugar, plus the meal's totals.
+    Read-only: this doesn't add a meal to the diary.
+
+    query: only meals whose name contains all of these words.
+    limit: maximum meals returned (default 50); `total` counts every match.
+    """
+    _check_limit(limit)
+
+    def op(store, client):
+        meals = [
+            meal
+            for meal in my_meals.list_my_meals(client)
+            if name_matches(meal["name"], query)
+        ]
+        return {"query": query, "total": len(meals), "meals": meals[:limit]}
+
+    return await with_session(ctx, op)
+
+
+@mcp.tool(title="List my recipes", annotations=READS_MFP)
+async def fitness_list_recipes(
+    query: str | None = None,
+    include_ingredients: bool = False,
+    limit: int = 50,
+    ctx: Context = None,
+) -> dict:
+    """Your saved recipes: MyFitnessPal's Recipe Box. Each has its number of
+    `servings` and `nutrition`: calories and nutrients as MyFitnessPal stores
+    them for the recipe. Nutrients MyFitnessPal stores no value for are null.
+
+    query: only recipes whose name contains all of these words.
+    include_ingredients: also list each recipe's ingredient lines with the
+    food, brand and serving each one was matched to (default false).
+    limit: maximum recipes returned (default 50); `total` counts every match.
+    """
+    _check_limit(limit)
+
+    def op(store, client):
+        matching = [
+            recipe
+            for recipe in recipes.fetch_recipes(client)
+            if name_matches(recipe.get("name"), query)
+        ]
+        return {
+            "query": query,
+            "total": len(matching),
+            "recipes": [
+                recipes.recipe_summary(recipe, include_ingredients=include_ingredients)
+                for recipe in matching[:limit]
+            ],
         }
 
     return await with_session(ctx, op)
